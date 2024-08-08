@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script>
+		let ws;
+		
+		function openWs(){
+			let wsUrl = "ws://localhost:8080/Ch14_2_MsgToMsg/websocket";
+			ws = new WebSocket(wsUrl);
+			ws.onopen = (evt)=>{
+				console.log("Connect...");								
+			}
+			ws.onmessage= (evt)=>{
+				
+				console.log("Message..."+evt.data)				
+			}
+		}
+		
+		
+		function sendMessg(){
+			let msgObj = document.getElementById("msg");
+			let fromUser = document.getElementById("from_user");
+			let toUser = document.getElementById("to_user");
+			let obj = {"msg":msgObj.value,
+						"fromUser":fromUser.value,
+						"toUser":toUser.value};
+			let jsonStr = JSON.stringify(obj);
+			console.log(jsonStr)
+			ws.send(jsonStr)
+		}
+	
+	</script>
+
+</head>
+<body>
+
+	<button type="button" onclick="openWs()">連線</button>
+	<div>
+		訊息<input type="text" id="msg" />
+		由<input type="text" id="from_user" />
+		送給<input type="text" id="to_user" />
+		<button type="button" onclick="sendMessg()">傳送</button>
+		
+	</div>
+</body>
+</html>
